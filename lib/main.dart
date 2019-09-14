@@ -25,7 +25,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final buttonBorder = RoundedRectangleBorder(
+
+  String _displayText = '0';
+
+  final _buttonBorder = RoundedRectangleBorder(
     side: BorderSide(
       style: BorderStyle.solid,
       width: 1.0,
@@ -33,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   );
 
-  final textButtonStyle = TextStyle(
+  final _textButtonStyle = TextStyle(
     color: Colors.deepPurple[100],
     fontSize: 40,
   );
@@ -64,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Text(
-              '0',
+              _displayText,
               style: TextStyle(
                 fontSize: 80,
               ),
@@ -177,22 +180,34 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _numButton(String num) {
     return FlatButton(
       padding: EdgeInsets.all(20),
-      shape: buttonBorder,
+      shape: _buttonBorder,
       child: Text(
         num,
-        style: textButtonStyle,
+        style: _textButtonStyle,
       ),
-      onPressed: () {},
+      onPressed: () {
+        if (_displayText.length < 9) {
+          setState(() {
+            if (num == '.' && _displayText.contains('.')) return;
+
+            if (_displayText == '0' && num != '.') {
+              _displayText = num;
+            } else {
+              _displayText += num;
+            }
+          });
+        }
+      },
     );
   }
 
   Widget _operatorButton(String opr) {
     return FlatButton(
       padding: EdgeInsets.all(20),
-      shape: buttonBorder,
+      shape: _buttonBorder,
       child: Text(
         opr,
-        style: textButtonStyle,
+        style: _textButtonStyle,
       ),
       onPressed: () {},
     );
@@ -201,12 +216,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _commandButton(String cmd) {
     return FlatButton(
       padding: EdgeInsets.all(20),
-      shape: buttonBorder,
+      shape: _buttonBorder,
       child: Text(
         cmd,
-        style: textButtonStyle,
+        style: _textButtonStyle,
       ),
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          _displayText = '0';
+        });
+      },
     );
   }
 }
