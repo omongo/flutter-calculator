@@ -26,8 +26,71 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   String _displayText = '0';
+
+  @override
+  Widget build(BuildContext context) {
+    print('Build All');
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: Colors.purple,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              _Output(
+                displayText: _displayText,
+              ),
+              _Input(
+                numPressed: _onNumPressed,
+                oprPressed: _onOprPressed,
+                cmdPressed: _onCmdPressed,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onNumPressed(num) {
+    if (_displayText.length < 9) {
+      setState(() {
+        if (num == '.' && _displayText.contains('.')) return;
+        if (_displayText == '0' && num != '.') {
+          _displayText = num;
+        } else {
+          _displayText += num;
+        }
+      });
+    }
+  }
+
+  void _onOprPressed(opr) {
+    setState(() {
+      if (opr == '=') {
+        Parser p = Parser();
+        Expression exp = p.parse(_displayText);
+        _displayText = exp.evaluate(EvaluationType.REAL, ContextModel()).toString();
+      } else {
+        _displayText += opr;
+      }
+    });
+  }
+
+  void _onCmdPressed(cmd) {
+    setState(() {
+      _displayText = '0';
+    });
+  }
+}
+
+class _Input extends StatelessWidget {
+  final Function(String) numPressed;
+  final Function(String) oprPressed;
+  final Function(String) cmdPressed;
+
+  _Input({Key key, this.cmdPressed, this.numPressed, this.oprPressed}) : super(key: key);
 
   final _buttonBorder = RoundedRectangleBorder(
     side: BorderSide(
@@ -44,42 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: Colors.purple,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              _output(),
-              _input(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _output() {
-    return Expanded(
-      child: Container(
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Text(
-              _displayText,
-              style: TextStyle(
-                fontSize: 80,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _input() {
     return Container(
       color: Colors.deepPurple[800],
       child: Column(
@@ -187,15 +214,8 @@ class _MyHomePageState extends State<MyHomePage> {
         style: _textButtonStyle,
       ),
       onPressed: () {
-        if (_displayText.length < 9) {
-          setState(() {
-            if (num == '.' && _displayText.contains('.')) return;
-            if (_displayText == '0' && num != '.') {
-              _displayText = num;
-            } else {
-              _displayText += num;
-            }
-          });
+        if (numPressed != null) {
+          numPressed(num);
         }
       },
     );
@@ -210,15 +230,9 @@ class _MyHomePageState extends State<MyHomePage> {
         style: _textButtonStyle,
       ),
       onPressed: () {
-        setState(() {
-          if (opr == '=') {
-            Parser p = Parser();
-            Expression exp = p.parse(_displayText);
-            _displayText = exp.evaluate(EvaluationType.REAL, ContextModel()).toString();
-          } else {
-            _displayText += opr;
-          }
-        });
+        if (oprPressed != null) {
+          oprPressed(opr);
+        }
       },
     );
   }
@@ -232,10 +246,41 @@ class _MyHomePageState extends State<MyHomePage> {
         style: _textButtonStyle,
       ),
       onPressed: () {
-        setState(() {
-          _displayText = '0';
-        });
+        if (cmdPressed != null) {
+          cmdPressed(cmd);
+        }
       },
+    );
+  }
+}
+
+class _Output extends StatefulWidget {
+  final displayText;
+
+  _Output({Key key, this.displayText = '0'}) : super(key: key);
+
+  @override
+  _OutputState createState() => _OutputState();
+}
+
+class _OutputState extends State<_Output> {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              widget.displayText,
+              style: TextStyle(
+                fontSize: 80,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
