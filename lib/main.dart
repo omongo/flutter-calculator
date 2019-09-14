@@ -25,14 +25,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +62,58 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _input() {
     return Column(
-      children: <Widget>[],
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Expanded(
+              flex: 3,
+              child: FlatButton(
+                child: Text('C'),
+                onPressed: () {},
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: FlatButton(
+                child: Text('/'),
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(child: FlatButton(child: Text('7'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('8'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('9'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('x'), onPressed: (){},)),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(child: FlatButton(child: Text('4'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('5'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('6'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('-'), onPressed: (){},)),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(child: FlatButton(child: Text('1'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('2'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('3'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('+'), onPressed: (){},)),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(flex: 2,child: FlatButton(child: Text('0'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('.'), onPressed: (){},)),
+            Expanded(child: FlatButton(child: Text('='), onPressed: (){},)),
+          ],
+        ),
+      ],
     );
   }
 }
