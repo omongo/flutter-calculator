@@ -86,27 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   flex: 3,
-                  child: FlatButton(
-                    padding: EdgeInsets.all(20),
-                    shape: buttonBorder,
-                    child: Text(
-                      'C',
-                      style: textButtonStyle,
-                    ),
-                    onPressed: () {},
-                  ),
+                  child: _commandButton('C'),
                 ),
                 Expanded(
                   flex: 1,
-                  child: FlatButton(
-                    padding: EdgeInsets.all(20),
-                    shape: buttonBorder,
-                    child: Text(
-                      '/',
-                      style: textButtonStyle,
-                    ),
-                    onPressed: () {},
-                  ),
+                  child: _operatorButton('/'),
                 ),
               ],
             ),
@@ -125,14 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: _numButton('9'),
                 ),
                 Expanded(
-                    child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text(
-                    'x',
-                    style: textButtonStyle,
-                  ),
-                  onPressed: () {},
-                )),
+                  child: _operatorButton('x'),
+                ),
               ],
             ),
           ),
@@ -140,20 +118,17 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Expanded(child: _numButton('4')),
-                Expanded(child: _numButton('5')),
+                Expanded(
+                  child: _numButton('4'),
+                ),
+                Expanded(
+                  child: _numButton('5'),
+                ),
                 Expanded(
                   child: _numButton('6'),
                 ),
                 Expanded(
-                  child: FlatButton(
-                    shape: buttonBorder,
-                    child: Text(
-                      '-',
-                      style: textButtonStyle,
-                    ),
-                    onPressed: () {},
-                  ),
+                  child: _operatorButton('-'),
                 ),
               ],
             ),
@@ -172,14 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: _numButton('3'),
                 ),
                 Expanded(
-                  child: FlatButton(
-                    shape: buttonBorder,
-                    child: Text(
-                      '+',
-                      style: textButtonStyle,
-                    ),
-                    onPressed: () {},
-                  ),
+                  child: _operatorButton('+'),
                 ),
               ],
             ),
@@ -193,23 +161,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: _numButton('0'),
                 ),
                 Expanded(
-                    child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text(
-                    '.',
-                    style: textButtonStyle,
-                  ),
-                  onPressed: () {},
-                )),
+                  child: _numButton('.'),
+                ),
                 Expanded(
-                  child: FlatButton(
-                    shape: buttonBorder,
-                    child: Text(
-                      '=',
-                      style: textButtonStyle,
-                    ),
-                    onPressed: () {},
-                  ),
+                  child: _operatorButton('='),
                 ),
               ],
             ),
@@ -225,6 +180,30 @@ class _MyHomePageState extends State<MyHomePage> {
       shape: buttonBorder,
       child: Text(
         num,
+        style: textButtonStyle,
+      ),
+      onPressed: () {},
+    );
+  }
+
+  Widget _operatorButton(String opr) {
+    return FlatButton(
+      padding: EdgeInsets.all(20),
+      shape: buttonBorder,
+      child: Text(
+        opr,
+        style: textButtonStyle,
+      ),
+      onPressed: () {},
+    );
+  }
+
+  Widget _commandButton(String cmd) {
+    return FlatButton(
+      padding: EdgeInsets.all(20),
+      shape: buttonBorder,
+      child: Text(
+        cmd,
         style: textButtonStyle,
       ),
       onPressed: () {},
