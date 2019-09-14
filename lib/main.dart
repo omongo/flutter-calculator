@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 void main() => runApp(MyApp());
 
@@ -189,7 +190,6 @@ class _MyHomePageState extends State<MyHomePage> {
         if (_displayText.length < 9) {
           setState(() {
             if (num == '.' && _displayText.contains('.')) return;
-
             if (_displayText == '0' && num != '.') {
               _displayText = num;
             } else {
@@ -209,7 +209,17 @@ class _MyHomePageState extends State<MyHomePage> {
         opr,
         style: _textButtonStyle,
       ),
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          if (opr == '=') {
+            Parser p = Parser();
+            Expression exp = p.parse(_displayText);
+            _displayText = exp.evaluate(EvaluationType.REAL, ContextModel()).toString();
+          } else {
+            _displayText += opr;
+          }
+        });
+      },
     );
   }
 
