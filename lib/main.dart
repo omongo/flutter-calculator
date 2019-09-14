@@ -25,13 +25,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final buttonBorder = RoundedRectangleBorder(
     side: BorderSide(
       style: BorderStyle.solid,
       width: 1.0,
       color: Colors.deepPurple,
     ),
+  );
+
+  final textButtonStyle = TextStyle(
+    color: Colors.deepPurple[100],
+    fontSize: 40,
   );
 
   @override
@@ -53,15 +57,161 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _output() {
+    return Expanded(
+      child: Container(
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              '0',
+              style: TextStyle(
+                fontSize: 80,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _input() {
     return Container(
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      color: Colors.deepPurple[800],
+      child: Column(
         children: <Widget>[
-          Text(
-            '0',
-            style: TextStyle(
-              fontSize: 100,
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: FlatButton(
+                    padding: EdgeInsets.all(20),
+                    shape: buttonBorder,
+                    child: Text(
+                      'C',
+                      style: textButtonStyle,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: FlatButton(
+                    padding: EdgeInsets.all(20),
+                    shape: buttonBorder,
+                    child: Text(
+                      '/',
+                      style: textButtonStyle,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  child: _numButton('7'),
+                ),
+                Expanded(
+                  child: _numButton('8'),
+                ),
+                Expanded(
+                  child: _numButton('9'),
+                ),
+                Expanded(
+                    child: FlatButton(
+                  shape: buttonBorder,
+                  child: Text(
+                    'x',
+                    style: textButtonStyle,
+                  ),
+                  onPressed: () {},
+                )),
+              ],
+            ),
+          ),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(child: _numButton('4')),
+                Expanded(child: _numButton('5')),
+                Expanded(
+                  child: _numButton('6'),
+                ),
+                Expanded(
+                  child: FlatButton(
+                    shape: buttonBorder,
+                    child: Text(
+                      '-',
+                      style: textButtonStyle,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  child: _numButton('1'),
+                ),
+                Expanded(
+                  child: _numButton('2'),
+                ),
+                Expanded(
+                  child: _numButton('3'),
+                ),
+                Expanded(
+                  child: FlatButton(
+                    shape: buttonBorder,
+                    child: Text(
+                      '+',
+                      style: textButtonStyle,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
+                  child: _numButton('0'),
+                ),
+                Expanded(
+                    child: FlatButton(
+                  shape: buttonBorder,
+                  child: Text(
+                    '.',
+                    style: textButtonStyle,
+                  ),
+                  onPressed: () {},
+                )),
+                Expanded(
+                  child: FlatButton(
+                    shape: buttonBorder,
+                    child: Text(
+                      '=',
+                      style: textButtonStyle,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -69,137 +219,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _input() {
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Expanded(
-              flex: 3,
-              child: FlatButton(
-                shape: buttonBorder,
-                child: Text('C'),
-                onPressed: () {},
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: FlatButton(
-                shape: buttonBorder,
-                child: Text('/'),
-                onPressed: () {},
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('7'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('8'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('9'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('x'),
-                  onPressed: () {},
-                )),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('4'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('5'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('6'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('-'),
-                  onPressed: () {},
-                )),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('1'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('2'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('3'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('+'),
-                  onPressed: () {},
-                )),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-                flex: 2,
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('0'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('.'),
-                  onPressed: () {},
-                )),
-            Expanded(
-                child: FlatButton(
-                  shape: buttonBorder,
-                  child: Text('='),
-                  onPressed: () {},
-                )),
-          ],
-        ),
-      ],
+  Widget _numButton(String num) {
+    return FlatButton(
+      padding: EdgeInsets.all(20),
+      shape: buttonBorder,
+      child: Text(
+        num,
+        style: textButtonStyle,
+      ),
+      onPressed: () {},
     );
   }
 }
