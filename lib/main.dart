@@ -1,17 +1,22 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:math_expressions/math_expressions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_calculator/bloc.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      builder: (context) => CalculatorBloc(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -26,11 +31,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _displayText = '0';
+  CalculatorBloc bloc;
+
+  @override
+  void didChangeDependencies() {
+    bloc = BlocProvider.of<CalculatorBloc>(context);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     print('Build All');
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -38,8 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              _Output(
-                displayText: _displayText,
+              BlocBuilder<CalculatorBloc, String>(
+                bloc: bloc,
+                builder: (context, state) {
+                  return _Output(
+                    displayText: state,
+                  );
+                },
               ),
               _Input(
                 numPressed: _onNumPressed,
@@ -54,34 +71,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onNumPressed(num) {
-    if (_displayText.length < 9) {
-      setState(() {
-        if (num == '.' && _displayText.contains('.')) return;
-        if (_displayText == '0' && num != '.') {
-          _displayText = num;
-        } else {
-          _displayText += num;
-        }
-      });
-    }
+    bloc.dispatch(NumEvent(num: num));
   }
 
   void _onOprPressed(opr) {
-    setState(() {
-      if (opr == '=') {
-        Parser p = Parser();
-        Expression exp = p.parse(_displayText);
-        _displayText = exp.evaluate(EvaluationType.REAL, ContextModel()).toString();
-      } else {
-        _displayText += opr;
-      }
-    });
+    bloc.dispatch(OprEvent(opr: opr));
   }
 
   void _onCmdPressed(cmd) {
-    setState(() {
-      _displayText = '0';
-    });
+    bloc.dispatch(CmdEvent());
   }
 }
 
@@ -269,16 +267,15 @@ class _OutputState extends State<_Output> {
     return Expanded(
       child: Container(
         color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Text(
-              widget.displayText,
-              style: TextStyle(
-                fontSize: 80,
-              ),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: AutoSizeText(
+            widget.displayText,
+            style: TextStyle(
+              fontSize: 80,
             ),
-          ],
+            maxLines: 1,
+          ),
         ),
       ),
     );
